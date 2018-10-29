@@ -1,21 +1,16 @@
-# Vapor Cookbook
+# Vapor Cookbook <!-- omit in toc -->
 
 Vapor cookbook contains snippets for problems that I came across when starting to write a backend service recently. The Discord group was very helpful to solve these problems and often I found solutions by searching through its archives. This list of solutions for problems I encountered and found solutions for may prove helpful for others going down that same path, trying to figure out the Vapor APIs.
 
-<!-- TOC -->
-
-- [Vapor Cookbook](#vapor-cookbook)
-    - [Requests](#requests)
-        - [Download file](#download-file)
-        - [Render page from a custom DSL](#render-page-from-a-custom-dsl)
-        - [Sending arrays and dictionaries via form](#sending-arrays-and-dictionaries-via-form)
-    - [Database](#database)
-        - [No ORM batch fetch with filter and sorting](#no-orm-batch-fetch-with-filter-and-sorting)
-        - [Batch insert](#batch-insert)
-    - [Reading config files](#reading-config-files)
-    - [Testing](#testing)
-
-<!-- /TOC -->
+- [Requests](#requests)
+    - [Download file](#download-file)
+    - [Render page from a custom DSL](#render-page-from-a-custom-dsl)
+    - [Sending arrays and dictionaries via form](#sending-arrays-and-dictionaries-via-form)
+- [Database](#database)
+    - [No ORM batch fetch with filter and sorting](#no-orm-batch-fetch-with-filter-and-sorting)
+    - [Batch insert](#batch-insert)
+- [Reading config files](#reading-config-files)
+- [Testing](#testing)
 
 ## Requests
 

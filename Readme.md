@@ -1,16 +1,20 @@
 # Vapor Cookbook <!-- omit in toc -->
 
-Vapor cookbook contains snippets for problems that I came across when starting to write a backend service recently. The Discord group was very helpful to solve these problems and often I found solutions by searching through its archives. This list of solutions for problems I encountered and found solutions for may prove helpful for others going down that same path, trying to figure out the Vapor APIs.
+Vapor cookbook contains snippets for problems that I came across when starting to write a backend service recently.
+
+The Vapor Discord group was very helpful to solve these problems and often I found solutions by searching through its archives. This list of solutions for problems I encountered and found solutions for may hopefully prove helpful for others going down that same path, trying to figure out the Vapor APIs.
 
 - [Requests](#requests)
     - [Download file](#download-file)
     - [Render page from a custom DSL](#render-page-from-a-custom-dsl)
     - [Sending arrays and dictionaries via form](#sending-arrays-and-dictionaries-via-form)
 - [Database](#database)
-    - [No ORM batch fetch with filter and sorting](#no-orm-batch-fetch-with-filter-and-sorting)
+    - [Batch fetch without Fluent, with filtering and sorting](#batch-fetch-without-fluent-with-filtering-and-sorting)
     - [Batch insert](#batch-insert)
 - [Reading config files](#reading-config-files)
 - [Testing](#testing)
+    - [Test page content](#test-page-content)
+    - [Snapshot testing](#snapshot-testing)
 
 ## Requests
 
@@ -91,7 +95,7 @@ TODO
 
 ## Database
 
-### No ORM batch fetch with filter and sorting
+### Batch fetch without Fluent, with filtering and sorting
 
 ```swift
 // SQLTable is a built in protocol
@@ -196,6 +200,46 @@ extension Environment {
 }
 ```
 
+Doc/test:
+
+```swift
+    func testParseConfig() throws {
+        let config = """
+            # comment
+
+            KEY_1 = value1
+            # inline comment
+            KEY_2 = value2=asd%ss;?@;asfh
+            KEY_3 = value3  # trailing comment
+            """
+        let parsed = parseConfig(config)
+        XCTAssertEqual(parsed, ConfigItems(uniqueKeysWithValues: [
+            ("KEY_1", "value1"),
+            ("KEY_2", "value2=asd%ss;?@;asfh"),
+            ("KEY_3", "value3"),
+            ]))
+    }
+```
+
 ## Testing
+
+### Test page content
+
+This snippet uses a test helper `app.sendRequest` defined in the [Ray Wenderlich "Server Side Swift with Vapor" Book](https://github.com/raywenderlich/vapor-til/blob/master/Tests/AppTests/Application%2BTestable.swift#L58).
+
+```swift
+    func testGetUpload() throws {
+        let res: Response = try app.sendRequest(to: "upload", method: .GET)
+        XCTAssertEqual(res.http.status, .ok)
+        XCTAssertEqual(res.http.contentType, .html)
+
+        let data = res.http.body.data!
+        let body = String(data: data, encoding: .utf8)!
+        XCTAssert(body.contains("<input class=\"btn btn-primary\" type=\"submit\" value=\"Upload\">"))
+    }
+```
+
+
+### Snapshot testing
 
 TODO
